@@ -24,7 +24,9 @@ void detector(
         const int gridnum,
         const int strides,
         const int anchorgrid[3][2],
-        const float conf_thresh){
+        const float conf_thresh,
+        const int nc = 80){
+    int no = nc + 5;
     float revsigmoid_conf = revsigmoid(conf_thresh);
     //Warning: For now, we assume batch_size is always 1.
     for(int bi = 0; bi < 1; bi++){
@@ -35,7 +37,7 @@ void detector(
                 jobjectArray ptr_d2 = (jobjectArray)env->GetObjectArrayElement(ptr_d1 ,gx);
                 auto elmptr = env->GetFloatArrayElements((jfloatArray)ptr_d2 , nullptr);
                 for(int ch = 0; ch < 3; ch++){
-                    int offset = 85 * ch;
+                    int offset = no * ch;
                     auto elmptr_ch = elmptr + offset;
                     //don't apply sigmoid to all bbox candidates for efficiency
                     float obj_conf_unsigmoid = elmptr_ch[4];

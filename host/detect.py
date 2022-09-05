@@ -15,9 +15,10 @@ if __name__ == '__main__':
     parser.add_argument('--conf_thres', type=float, default=0.25)
     parser.add_argument('--iou_thres', type=float, default=0.45)
     parser.add_argument('--quantize_mode', action='store_true')
+    parser.add_argument('--n_classes', type=int, default=80)
     args = parser.parse_args()
 
-    runner = TfLiteRunner(args.model_path, args.input_size, args.conf_thres, args.iou_thres, args.quantize_mode)
+    runner = TfLiteRunner(args.model_path, args.input_size, args.conf_thres, args.iou_thres, args.quantize_mode, args.n_classes)
     img = Image.open(args.image)
     bboxres = runner.detect(img, from_pil_img=True)
     img_cv = cv2.imread(args.image)
